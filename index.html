@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>波音びぃ (Namine Bee) | 公式ホームページ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@400;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --yellow: #FFD700;
+      --yellow-soft: #FFE866;
+      --yellow-pale: #FFFBE6;
+      --sky: #5BCFEA;
+      --sky-light: #A8E9F5;
+      --sky-pale: #E8F9FD;
+      --navy: #1A3A5C;
+      --cream: #FFFDF2;
+      --white: #FFFFFF;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      overflow-x: hidden;
+    }
+
+    /* ===== FLOATING DECO ===== */
+    .bg-fixed {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 100% 60% at 90% 10%, rgba(91,207,234,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 70% at 5% 85%, rgba(255,215,0,0.10) 0%, transparent 55%);
+    }
+    .honeycomb-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpolygon points='28,2 54,16 54,50 28,64 2,50 2,16' fill='none' stroke='%23FFD700' stroke-width='2'/%3E%3Cpolygon points='28,52 54,66 54,100 28,114 2,100 2,66' fill='none' stroke='%23FFD700' stroke-width='2'/%3E%3C/svg%3E");
+      background-size: 56px 100px;
+    }
+    .bee-float { position: fixed; pointer-events: none; z-index: 1; font-size: 1.6rem; opacity: 0.45; animation: beeDrift ease-in-out infinite; }
+    .bee-float:nth-child(1) { left: 5%;  top: 18%; animation-duration: 13s; }
+    .bee-float:nth-child(2) { left: 87%; top: 28%; animation-duration: 17s; animation-delay: -4s; }
+    .bee-float:nth-child(3) { left: 16%; top: 72%; animation-duration: 11s; animation-delay: -7s; }
+    .bee-float:nth-child(4) { left: 78%; top: 78%; animation-duration: 15s; animation-delay: -2s; }
+    @keyframes beeDrift {
+      0%,100% { transform: translateY(0) rotate(-8deg); }
+      40%      { transform: translateY(-20px) rotate(8deg); }
+      70%      { transform: translateY(-8px) rotate(-4deg); }
+    }
+
+    /* ===== HERO ===== */
+    header {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(155deg, var(--yellow-soft) 0%, var(--yellow) 30%, var(--sky-light) 65%, var(--sky) 100%);
+      overflow: hidden;
+      padding: 60px 20px 110px;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(-50deg, transparent, transparent 22px, rgba(255,255,255,0.12) 22px, rgba(255,255,255,0.12) 26px);
+    }
+    header::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0; right: 0; height: 90px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 0.82rem; letter-spacing: 0.38em; font-weight: 700;
+      color: var(--navy); opacity: 0.65; text-transform: uppercase;
+    }
+    .hero-name-jp {
+      font-family: 'Kaisei Opti', serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      color: var(--navy);
+      line-height: 1;
+      text-shadow: 5px 7px 0 rgba(91,207,234,0.5), 0 0 50px rgba(255,215,0,0.45);
+      letter-spacing: 0.05em;
+    }
+    .hero-name-en {
+      font-family: 'Kaisei Opti', serif;
+      font-size: clamp(1.1rem, 2.8vw, 1.7rem);
+      color: var(--navy);
+      letter-spacing: 0.25em;
+      opacity: 0.55;
+      margin-top: -4px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--navy);
+      color: var(--yellow);
+      font-size: 0.8rem; font-weight: 800; letter-spacing: 0.18em;
+      padding: 6px 22px; border-radius: 999px; margin-top: 8px;
+    }
+
+    @keyframes floatChara {
+      0%,100% { transform: translateY(0) rotate(-0.3deg); }
+      50%      { transform: translateY(-16px) rotate(0.3deg); }
+    }
+    .scroll-hint {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 5px;
+      color: var(--navy); opacity: 0.45; font-size: 0.72rem; letter-spacing: 0.2em;
+      animation: hintBounce 2s ease-in-out infinite;
+    }
+    @keyframes hintBounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,253,242,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 3px solid var(--yellow);
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; padding: 0 12px;
+    }
+    nav a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 13px 16px;
+      font-size: 0.86rem; font-weight: 700;
+      color: var(--navy); text-decoration: none; letter-spacing: 0.06em;
+      position: relative; transition: color 0.2s;
+    }
+    nav a::after {
+      content: ''; position: absolute; bottom: 7px; left: 16px; right: 16px; height: 3px;
+      background: var(--sky); border-radius: 2px;
+      transform: scaleX(0); transition: transform 0.22s;
+    }
+    nav a:hover { color: var(--sky); }
+    nav a:hover::after { transform: scaleX(1); }
+
+    /* ===== SECTION COMMON ===== */
+    .section-wrap { position: relative; z-index: 5; }
+    section { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
+    .alt-bg { background: var(--sky-pale); }
+    .yellow-bg { background: var(--yellow-pale); }
+
+    .section-title {
+      font-family: 'Kaisei Opti', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      color: var(--navy); margin-bottom: 36px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .title-icon {
+      width: 40px; height: 40px;
+      background: var(--yellow);
+      border: 3px solid var(--sky);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 0 0 5px rgba(91,207,234,0.18);
+      flex-shrink: 0;
+    }
+
+    /* ===== STORY ===== */
+    .story-card {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e4d7a 100%);
+      border-radius: 24px;
+      padding: 36px 40px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(26,58,92,0.22);
+    }
+    .story-card::before {
+      content: '⚓';
+      position: absolute; right: 28px; top: 50%; transform: translateY(-50%);
+      font-size: 7rem; opacity: 0.07; pointer-events: none;
+    }
+    .story-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(-50deg, transparent, transparent 18px, rgba(255,255,255,0.03) 18px, rgba(255,255,255,0.03) 22px);
+    }
+    .story-label {
+      font-size: 0.72rem; letter-spacing: 0.3em; font-weight: 800;
+      color: var(--yellow); margin-bottom: 14px;
+      position: relative; z-index: 1;
+    }
+    .story-text {
+      font-size: 1rem; line-height: 2.1; color: rgba(255,255,255,0.9);
+      position: relative; z-index: 1;
+      font-weight: 500;
+    }
+
+    /* ===== PROFILE ===== */
+    .profile-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    }
+    .profile-item {
+      background: white; border-radius: 18px; padding: 20px 24px;
+      border: 2px solid var(--sky-light);
+      box-shadow: 0 4px 20px rgba(91,207,234,0.10);
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .profile-item.full { grid-column: 1 / -1; }
+    .profile-label {
+      font-size: 0.72rem; letter-spacing: 0.2em; font-weight: 800;
+      color: var(--sky); text-transform: uppercase;
+    }
+    .profile-value { font-size: 1.02rem; font-weight: 700; color: var(--navy); line-height: 1.6; }
+    .profile-intro {
+      background: linear-gradient(135deg, var(--yellow-pale), var(--sky-pale));
+      border: 2px solid var(--yellow-soft);
+      font-size: 1rem; line-height: 1.9;
+    }
+
+    /* ===== FAN CARD ===== */
+    .fan-card {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e4d7a 100%) !important;
+      border: none !important;
+    }
+    .fan-card .profile-label {
+      color: var(--yellow-soft);
+    }
+    .fan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .fan-item {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .fan-key {
+      font-size: 0.68rem; letter-spacing: 0.15em; font-weight: 800;
+      color: var(--sky-light); text-transform: uppercase; opacity: 0.8;
+    }
+    .fan-val {
+      font-size: 1rem; font-weight: 700; color: #ffffff;
+    }
+    .fan-mark {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .fan-tag {
+      display: inline-block;
+      background: rgba(91,207,234,0.2);
+      color: var(--sky-light);
+      padding: 3px 12px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(91,207,234,0.4);
+      font-size: 0.92rem;
+    }
+
+    /* ===== SNS ===== */
+    .sns-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 18px;
+    }
+    .sns-card {
+      background: white; border-radius: 20px; padding: 26px 28px;
+      text-decoration: none; display: flex; align-items: center; gap: 18px;
+      border: 2.5px solid transparent;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .sns-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.13); }
+    .sns-card.yt  { border-color: #FF0000; } .sns-card.yt:hover  { background: #fff5f5; }
+    .sns-card.tw  { border-color: #1DA1F2; } .sns-card.tw:hover  { background: #f0f9ff; }
+    .sns-card.fw  { border-color: var(--yellow); } .sns-card.fw:hover { background: var(--yellow-pale); }
+    .sns-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .sns-card.yt .sns-icon { background: #FF0000; }
+    .sns-card.tw .sns-icon { background: #1DA1F2; }
+    .sns-card.fw .sns-icon { background: var(--yellow); }
+    .sns-info { display: flex; flex-direction: column; gap: 3px; }
+    .sns-platform { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.15em; opacity: 0.45; text-transform: uppercase; }
+    .sns-name { font-size: 1.05rem; font-weight: 700; color: var(--navy); }
+    .sns-handle { font-size: 0.82rem; opacity: 0.5; }
+
+    /* ===== SCHEDULE ===== */
+    .schedule-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+    }
+    .month-label { font-family: 'Kaisei Opti', serif; font-size: 1.5rem; color: var(--sky); }
+    .schedule-table-wrap {
+      overflow-x: auto; border-radius: 20px;
+      box-shadow: 0 4px 28px rgba(91,207,234,0.14);
+    }
+    table { width: 100%; border-collapse: collapse; background: white; min-width: 500px; }
+    thead tr { background: var(--navy); }
+    thead th { padding: 14px 16px; color: var(--yellow); font-size: 0.85rem; letter-spacing: 0.1em; font-weight: 800; text-align: left; }
+    tbody tr { border-bottom: 1.5px solid var(--sky-pale); transition: background 0.15s; }
+    tbody tr:hover { background: var(--sky-pale); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 14px 16px; font-size: 0.9rem; vertical-align: middle; }
+    .td-date { font-weight: 800; white-space: nowrap; }
+    .wday { font-size: 0.75rem; margin-left: 4px; }
+    .sat { color: var(--sky); } .sun { color: #e05a5a; }
+    .td-time { color: var(--sky); font-weight: 700; white-space: nowrap; }
+    .badge {
+      display: inline-block; font-size: 0.68rem; font-weight: 800; padding: 2px 10px;
+      border-radius: 999px; letter-spacing: 0.08em; margin-left: 7px; vertical-align: middle;
+    }
+    .badge-live   { background: var(--yellow); color: var(--navy); }
+    .badge-collab { background: var(--sky); color: white; }
+    .schedule-note { margin-top: 14px; font-size: 0.82rem; opacity: 0.6; }
+    .schedule-note a { color: var(--sky); font-weight: 700; }
+
+    /* ===== RULES ===== */
+    .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .rule-card {
+      background: white; border-radius: 18px; padding: 22px 24px;
+      border-left: 5px solid var(--sky);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
+    .rule-card.warn { border-left-color: #e05a5a; }
+    .rule-card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 10px; }
+    .rule-card ul { padding-left: 16px; }
+    .rule-card li { font-size: 0.87rem; line-height: 1.88; opacity: 0.85; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative; z-index: 5;
+      background: var(--navy); color: rgba(255,255,255,0.5);
+      text-align: center; padding: 50px 24px 36px;
+    }
+    .footer-name { font-family: 'Kaisei Opti', serif; font-size: 1.8rem; color: var(--yellow); margin-bottom: 3px; }
+    .footer-en { font-size: 0.8rem; letter-spacing: 0.3em; opacity: 0.45; margin-bottom: 22px; }
+    .footer-links { display: flex; justify-content: center; gap: 22px; margin-bottom: 26px; flex-wrap: wrap; }
+    .footer-links a { color: var(--sky-light); text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--yellow); }
+    .footer-copy { font-size: 0.74rem; opacity: 0.38; }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .profile-grid, .rules-grid { grid-template-columns: 1fr; }
+      nav a { padding: 11px 9px; font-size: 0.75rem; }
+    }
+
+    /* ===== HERO CHARA WRAP + MINI COUNTDOWN BADGE ===== */
+    .hero-chara-wrap {
+      position: relative;
+      display: inline-block;
+      margin-top: 12px;
+    }
+    .hero-chara {
+      width: min(320px, 70vw);
+      filter: drop-shadow(0 14px 44px rgba(91,207,234,0.55)) drop-shadow(0 3px 10px rgba(0,0,0,0.10));
+      animation: floatChara 5.5s ease-in-out infinite;
+      display: block;
+    }
+    .hero-countdown-badge {
+      position: absolute;
+      bottom: 18px;
+      right: -10px;
+      background: var(--navy);
+      border: 2.5px solid var(--yellow);
+      border-radius: 18px;
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      box-shadow: 0 6px 24px rgba(26,58,92,0.35);
+      animation: floatChara 5.5s ease-in-out infinite;
+    }
+    .hcd-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: var(--sky-light);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .hcd-days {
+      font-family: 'Kaisei Opti', serif;
+      font-size: 1.55rem;
+      color: var(--yellow);
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .hcd-days span {
+      font-size: 2rem;
+    }
+
+    /* ===== CHEER COUNTER ===== */
+    .cheer-wrap { display: flex; justify-content: center; }
+    .cheer-card {
+      background: white; border-radius: 28px; padding: 44px 48px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(91,207,234,0.18);
+      border: 2.5px solid var(--sky-light);
+      width: 100%; position: relative;
+    }
+    .cheer-total-label {
+      font-size: 0.82rem; letter-spacing: 0.2em; font-weight: 800;
+      color: var(--sky); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .cheer-total {
+      font-family: 'Kaisei Opti', serif;
+      font-size: clamp(3rem, 8vw, 5rem);
+      color: var(--navy); line-height: 1; margin-bottom: 28px;
+    }
+    .cheer-unit { font-size: 1.6rem; margin-left: 6px; }
+    .cheer-btn {
+      background: linear-gradient(135deg, var(--yellow), #FFB800);
+      color: var(--navy); border: none; border-radius: 999px;
+      padding: 16px 40px; font-size: 1.05rem; font-weight: 800;
+      cursor: pointer; letter-spacing: 0.08em;
+      box-shadow: 0 6px 24px rgba(255,184,0,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: inline-flex; align-items: center;
+    }
+    .cheer-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(255,184,0,0.5); }
+    .cheer-btn:active { transform: scale(0.96); }
+    .cheer-bubble-wrap {
+      position: relative; height: 60px; margin-top: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cheer-bubble {
+      background: var(--navy); color: white;
+      padding: 10px 22px; border-radius: 20px;
+      font-size: 0.92rem; font-weight: 700;
+      position: relative; animation: bubblePop 0.35s ease;
+      max-width: 320px;
+    }
+    .cheer-bubble::before {
+      content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+      border: 8px solid transparent; border-bottom-color: var(--navy);
+      border-top: none;
+    }
+    @keyframes bubblePop {
+      0%   { opacity: 0; transform: scale(0.7) translateY(8px); }
+      60%  { transform: scale(1.06) translateY(-2px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ===== GUIDELINE ===== */
+    .full-rule { grid-column: 1 / -1; }
+    .guideline-intro {
+      font-size: 0.88rem; line-height: 1.8; opacity: 0.75; margin-bottom: 18px;
+    }
+    .guideline-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px;
+    }
+    .guideline-col { border-radius: 12px; padding: 16px 18px; }
+    .guideline-col.ok { background: rgba(91,207,234,0.08); border: 1.5px solid rgba(91,207,234,0.3); }
+    .guideline-col.ng { background: rgba(224,90,90,0.06); border: 1.5px solid rgba(224,90,90,0.25); }
+    .guideline-col-title { font-weight: 800; font-size: 0.9rem; margin-bottom: 10px; }
+    .guideline-col ul { padding-left: 16px; }
+    .guideline-col li { font-size: 0.84rem; line-height: 1.85; opacity: 0.85; }
+    .guideline-note {
+      font-size: 0.78rem; opacity: 0.55; line-height: 1.7;
+    }
+    .guideline-note a { color: var(--sky); font-weight: 700; }
+
+    @media (max-width: 640px) {
+      .guideline-grid { grid-template-columns: 1fr; }
+      .countdown-block { min-width: 68px; padding: 14px 12px; }
+      .countdown-card { padding: 28px 16px; }
+      .cheer-card { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SVG BEE ICON definition (reusable) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="icon-bee" viewBox="0 0 32 32">
+      <!-- body -->
+      <ellipse cx="16" cy="17" rx="7" ry="9" fill="#FFD700" stroke="#1A3A5C" stroke-width="1.5"/>
+      <!-- stripes -->
+      <rect x="9.5" y="14" width="13" height="3" rx="1.5" fill="#1A3A5C" opacity="0.55"/>
+      <rect x="9.5" y="19" width="13" height="3" rx="1.5" fill="#1A3A5C" opacity="0.55"/>
+      <!-- head -->
+      <circle cx="16" cy="8.5" r="4.5" fill="#FFD700" stroke="#1A3A5C" stroke-width="1.5"/>
+      <!-- antennae -->
+      <line x1="14" y1="5" x2="11" y2="2" stroke="#1A3A5C" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="10.5" cy="1.5" r="1.2" fill="#5BCFEA"/>
+      <line x1="18" y1="5" x2="21" y2="2" stroke="#1A3A5C" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="21.5" cy="1.5" r="1.2" fill="#5BCFEA"/>
+      <!-- wings -->
+      <ellipse cx="8" cy="13" rx="5.5" ry="3" fill="#A8E9F5" stroke="#5BCFEA" stroke-width="1.2" opacity="0.85" transform="rotate(-20 8 13)"/>
+      <ellipse cx="24" cy="13" rx="5.5" ry="3" fill="#A8E9F5" stroke="#5BCFEA" stroke-width="1.2" opacity="0.85" transform="rotate(20 24 13)"/>
+      <!-- eyes -->
+      <circle cx="14.5" cy="8.5" r="1" fill="#1A3A5C"/>
+      <circle cx="17.5" cy="8.5" r="1" fill="#1A3A5C"/>
+      <!-- stinger -->
+      <ellipse cx="16" cy="25.5" rx="2" ry="1.2" fill="#FFB800" stroke="#1A3A5C" stroke-width="1"/>
+    </symbol>
+    <symbol id="icon-anchor" viewBox="0 0 32 32">
+      <!-- anchor emoji fallback - rendered via foreignObject or just use emoji directly -->
+    </symbol>
+  </defs>
+</svg>
+
+<!-- BG -->
+<div class="bg-fixed"></div>
+<div class="honeycomb-bg"></div>
+<div class="bee-float"><svg width="36" height="36"><use href="#icon-bee"/></svg></div>
+<div class="bee-float"><svg width="36" height="36"><use href="#icon-bee"/></svg></div>
+<div class="bee-float"><svg width="28" height="28"><use href="#icon-bee"/></svg></div>
+<div class="bee-float"><svg width="32" height="32"><use href="#icon-bee"/></svg></div>
+
+<!-- ===== HERO ===== -->
+<header>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">⚓ Official Website ⚓</p>
+    <h1 class="hero-name-jp">波音びぃ</h1>
+    <p class="hero-name-en">Namine Bee</p>
+    <div class="hero-badge"><svg width="18" height="18" style="vertical-align:middle"><use href="#icon-bee"/></svg>&nbsp;VTuber&nbsp;<svg width="18" height="18" style="vertical-align:middle"><use href="#icon-bee"/></svg></div>
+    <div class="hero-chara-wrap">
+      <img src="2698.png" alt="波音びぃ キャラクター" class="hero-chara" onerror="this.style.display='none'" />
+      <div class="hero-countdown-badge">
+        <span class="hcd-label">デビューまであと</span>
+        <span class="hcd-days"><span id="cd-days">--</span>日</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>SCROLL</span><span>▼</span></div>
+</header>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <a href="#profile"><svg width="16" height="16" style="vertical-align:middle;margin-right:4px"><use href="#icon-bee"/></svg>プロフィール</a>
+  <a href="#sns">⚓ SNS</a>
+  <a href="#schedule">⚓ スケジュール</a>
+  <a href="#countdown" style="display:none"></a>
+  <a href="#cheer"><svg width="16" height="16" style="vertical-align:middle;margin-right:4px"><use href="#icon-bee"/></svg>応援</a>
+  <a href="#rules"><svg width="16" height="16" style="vertical-align:middle;margin-right:4px"><use href="#icon-bee"/></svg>注意事項</a>
+</nav>
+
+<!-- ===== PROFILE ===== -->
+<div class="section-wrap" id="profile">
+  <section>
+    <h2 class="section-title fade-in"><span class="title-icon"><svg width="22" height="22"><use href="#icon-bee"/></svg></span>プロフィール</h2>
+    <!-- STORY -->
+    <div class="story-card fade-in">
+      <div class="story-label">⚓ STORY</div>
+      <p class="story-text">
+        好奇心旺盛で、挑戦が大好きなハチの妖精。<br>
+        ある日、もっと広い世界を見ようと船で冒険に出たら、知らない世界に着いちゃった！<br>
+        最初は困惑したけど、だんだんこの世界のことが好きになってきて──<br>
+        今は立派な船長目指して日々邁進中！
+      </p>
+    </div>
+
+    <div class="profile-grid fade-in">
+
+      <div class="profile-item full profile-intro">
+        今日も元気に出航〜！<svg width="16" height="16" style="vertical-align:middle"><use href="#icon-bee"/></svg>⚓<br>
+        中学生完全セルフ受肉VTuber、船長見習いの波音びぃです！<br>
+        お歌が大好きで、お絵描きも編集もなんでもできちゃう大天才！<br>
+        立派な船長を目指して、みんなに笑顔を届けられるよう全力で活動中です！<br>
+        まだまだ見習いだけど、応援してくれると嬉しいな！
+      </div>
+
+      <div class="profile-item">
+        <span class="profile-label">Name</span>
+        <span class="profile-value">波音びぃ（Namine Bee）</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-label">モチーフ</span>
+        <span class="profile-value"><svg width="15" height="15" style="vertical-align:middle"><use href="#icon-bee"/></svg> ハチ ／ ⚓ 船のアンカー</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-label">活動内容</span>
+        <span class="profile-value">歌・ゲーム配信・お絵描き・動画編集</span>
+      </div>
+      <div class="profile-item">
+        <span class="profile-label">目標</span>
+        <span class="profile-value">⚓ 立派な船長になること！</span>
+      </div>
+
+      <!-- ファン情報カード -->
+      <div class="profile-item full fan-card">
+        <span class="profile-label">ファン情報</span>
+        <div class="fan-grid">
+          <div class="fan-item">
+            <span class="fan-key">ファンネーム</span>
+            <span class="fan-val">なみのり隊</span>
+          </div>
+          <div class="fan-item">
+            <span class="fan-key">呼び方</span>
+            <span class="fan-val">びぃさま・びぃちゃん</span>
+          </div>
+          <div class="fan-item">
+            <span class="fan-key">ファンマーク</span>
+            <span class="fan-val fan-mark">
+              <svg width="18" height="18" style="vertical-align:middle"><use href="#icon-bee"/></svg>
+              ⚓
+            </span>
+          </div>
+          <div class="fan-item">
+            <span class="fan-key">総合・エゴサタグ</span>
+            <span class="fan-val fan-tag">#波音びぃ</span>
+          </div>
+          <div class="fan-item">
+            <span class="fan-key">FAタグ</span>
+            <span class="fan-val fan-tag">#びぃらすと</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ===== SNS ===== -->
+<div class="section-wrap alt-bg" id="sns">
+  <section>
+    <h2 class="section-title fade-in"><span class="title-icon">⚓</span>SNS・配信リンク</h2>
+    <div class="sns-grid fade-in">
+
+      <a href="https://youtube.com/@dakunesu0219?si=wiV-UgmcBE7-t-16" target="_blank" rel="noopener" class="sns-card yt">
+        <div class="sns-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M23.5 6.2s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.8 2 12 2 12 2s-4.8 0-7.3.1c-.6.1-1.9.1-3 1.3C.8 4.2.5 6.2.5 6.2S.2 8.5.2 10.8v2.1c0 2.3.3 4.6.3 4.6s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.2 21.7 12 21.8 12 21.8s4.8 0 7.3-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.3.3-4.6v-2.1C23.8 8.5 23.5 6.2 23.5 6.2zm-13.9 9.4V8.4l8.1 3.6-8.1 3.6z"/>
+          </svg>
+        </div>
+        <div class="sns-info">
+          <span class="sns-platform">YouTube</span>
+          <span class="sns-name">波音びぃ</span>
+          <span class="sns-handle">@dakunesu0219</span>
+        </div>
+      </a>
+
+      <a href="https://x.com/Bee_sama0219" target="_blank" rel="noopener" class="sns-card tw">
+        <div class="sns-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </div>
+        <div class="sns-info">
+          <span class="sns-platform">X (Twitter)</span>
+          <span class="sns-name">波音びぃ</span>
+          <span class="sns-handle">@Bee_sama0219</span>
+        </div>
+      </a>
+
+      <a href="https://whowatch.tv/profile/w:Bee_sama0219" target="_blank" rel="noopener" class="sns-card fw">
+        <div class="sns-icon">
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+            <rect x="3" y="8" width="26" height="19" rx="3" fill="#1A3A5C"/>
+            <circle cx="16" cy="17" r="6" fill="#FFD700"/>
+            <circle cx="16" cy="17" r="3.5" fill="#1A3A5C"/>
+            <rect x="11" y="5" width="10" height="5" rx="2" fill="#1A3A5C"/>
+            <circle cx="25" cy="11" r="1.5" fill="#FFD700"/>
+          </svg>
+        </div>
+        <div class="sns-info">
+          <span class="sns-platform">ふわっち</span>
+          <span class="sns-name">波音びぃ</span>
+          <span class="sns-handle">Bee_sama0219</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+</div>
+
+<!-- ===== SCHEDULE ===== -->
+<div class="section-wrap yellow-bg" id="schedule">
+  <section>
+    <h2 class="section-title fade-in"><span class="title-icon">⚓</span>月間スケジュール</h2>
+    <div class="fade-in">
+      <div class="schedule-meta">
+        <p class="month-label">2025年 5月</p>
+        <p style="font-size:0.8rem;opacity:0.55;">※予定は変更になる場合があります</p>
+      </div>
+      <div class="schedule-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>時間</th>
+              <th>内容</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-date">5月1日 <span class="wday">（木）</span></td>
+              <td class="td-time">21:00〜</td>
+              <td>雑談配信<svg width="14" height="14" style="vertical-align:middle"><use href="#icon-bee"/></svg> <span class="badge badge-live">LIVE</span></td>
+            </tr>
+            <tr>
+              <td class="td-date">5月3日 <span class="wday sat">（土）</span></td>
+              <td class="td-time">20:00〜</td>
+              <td>ゲーム配信</td>
+            </tr>
+            <tr>
+              <td class="td-date">5月7日 <span class="wday">（水）</span></td>
+              <td class="td-time">21:00〜</td>
+              <td>歌枠🎤 <span class="badge badge-live">LIVE</span></td>
+            </tr>
+            <tr>
+              <td class="td-date">5月10日 <span class="wday sat">（土）</span></td>
+              <td class="td-time">20:00〜</td>
+              <td>ゲーム配信</td>
+            </tr>
+            <tr>
+              <td class="td-date">5月14日 <span class="wday">（水）</span></td>
+              <td class="td-time">21:00〜</td>
+              <td>コラボ配信⚓ <span class="badge badge-collab">COLLAB</span></td>
+            </tr>
+            <tr>
+              <td class="td-date">5月17日 <span class="wday sat">（土）</span></td>
+              <td class="td-time">20:00〜</td>
+              <td>雑談配信<svg width="14" height="14" style="vertical-align:middle"><use href="#icon-bee"/></svg></td>
+            </tr>
+            <tr>
+              <td class="td-date">5月21日 <span class="wday">（水）</span></td>
+              <td class="td-time">21:00〜</td>
+              <td>ゲーム配信 <span class="badge badge-live">LIVE</span></td>
+            </tr>
+            <tr>
+              <td class="td-date">5月24日 <span class="wday sat">（土）</span></td>
+              <td class="td-time">20:00〜</td>
+              <td>歌枠🎤</td>
+            </tr>
+            <tr>
+              <td class="td-date">5月28日 <span class="wday">（水）</span></td>
+              <td class="td-time">21:00〜</td>
+              <td>雑談配信<svg width="14" height="14" style="vertical-align:middle"><use href="#icon-bee"/></svg>⚓ <span class="badge badge-live">LIVE</span></td>
+            </tr>
+            <tr>
+              <td class="td-date">5月31日 <span class="wday sat">（土）</span></td>
+              <td class="td-time">20:00〜</td>
+              <td>月末スペシャル配信🎉 <span class="badge badge-live">LIVE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="schedule-note">⚓ 最新情報は <a href="https://x.com/Bee_sama0219" target="_blank">X (@Bee_sama0219)</a> をチェック！</p>
+    </div>
+  </section>
+</div>
+
+<!-- ===== CHEER COUNTER ===== -->
+<div class="section-wrap" id="cheer">
+  <section>
+    <h2 class="section-title fade-in"><span class="title-icon"><svg width="22" height="22"><use href="#icon-bee"/></svg></span>応援カウンター</h2>
+    <div class="cheer-wrap fade-in">
+      <div class="cheer-card">
+        <p class="cheer-total-label">みんなの応援数</p>
+        <p class="cheer-total"><span id="cheer-count">0</span><span class="cheer-unit">回</span></p>
+        <button class="cheer-btn" id="cheer-btn" onclick="sendCheer()">
+          <svg width="20" height="20" style="vertical-align:middle;margin-right:6px"><use href="#icon-bee"/></svg>
+          びぃさまを応援する！
+        </button>
+        <div class="cheer-bubble-wrap" id="cheer-bubble"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== RULES ===== -->
+<div class="section-wrap alt-bg" id="rules">
+  <section>
+    <h2 class="section-title fade-in"><span class="title-icon"><svg width="22" height="22"><use href="#icon-bee"/></svg></span>注意事項</h2>
+    <div class="rules-grid fade-in">
+
+      <div class="rule-card">
+        <h3>✅ 配信ルール</h3>
+        <ul>
+          <li>ネタバレは事前にひと言お声がけください</li>
+          <li>過度なスパムコメントはご遠慮ください</li>
+          <li>他VTuber・配信者への言及はご注意を</li>
+          <li>荒らし・煽りはスルーが一番です</li>
+        </ul>
+      </div>
+
+      <div class="rule-card warn">
+        <h3>🚫 禁止事項</h3>
+        <ul>
+          <li>誹謗中傷・荒らし行為は即ブロック対応</li>
+          <li>政治・宗教などデリケートな話題の持ち込み</li>
+          <li>個人情報の公開・詮索行為</li>
+          <li>他者を不快にさせるコメント全般</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <h3>🎨 ファンアートについて</h3>
+        <ul>
+          <li>ファンアート大歓迎です！<svg width="13" height="13" style="vertical-align:middle"><use href="#icon-bee"/></svg>⚓</li>
+          <li>投稿時はFAタグ <strong>#びぃらすと</strong> をつけてね</li>
+          <li>過度な性的・残酷な表現はNG</li>
+          <li>二次創作ガイドラインもあわせて確認してね</li>
+        </ul>
+      </div>
+
+      <div class="rule-card">
+        <h3>📢 その他のお願い</h3>
+        <ul>
+          <li>切り抜き動画は常識の範囲内でOK</li>
+          <li>切り抜きには必ず出典を明記してください</li>
+          <li>スパチャ・投げ銭は任意です、感謝<svg width="13" height="13" style="vertical-align:middle"><use href="#icon-bee"/></svg></li>
+          <li>ルールを守って楽しい場にしましょう！</li>
+        </ul>
+      </div>
+
+      <!-- 二次創作ガイドライン（全幅） -->
+      <div class="rule-card guideline-card full-rule">
+        <h3>📜 二次創作ガイドライン</h3>
+        <p class="guideline-intro">波音びぃのキャラクター・名前・ロゴなどを使用した二次創作については、以下のガイドラインをご確認のうえお楽しみください。</p>
+        <div class="guideline-grid">
+          <div class="guideline-col ok">
+            <p class="guideline-col-title">✅ OK</p>
+            <ul>
+              <li>ファンアート・イラストの制作・投稿</li>
+              <li>非商用の二次創作小説・漫画</li>
+              <li>切り抜き動画（出典の明記必須）</li>
+              <li>歌ってみた・演奏してみた（非商用）</li>
+              <li>応援・紹介を目的としたグッズ（個人利用のみ）</li>
+            </ul>
+          </div>
+          <div class="guideline-col ng">
+            <p class="guideline-col-title">❌ NG</p>
+            <ul>
+              <li>過度な性的表現・グロテスクな表現を含むもの</li>
+              <li>本人のイメージを著しく損なう表現</li>
+              <li>商用目的での無断利用・販売</li>
+              <li>他者への誹謗中傷に利用するもの</li>
+              <li>AIへの無断学習・データセットへの利用</li>
+            </ul>
+          </div>
+        </div>
+        <p class="guideline-note">※ガイドラインは予告なく変更される場合があります。不明な点はX（<a href="https://x.com/Bee_sama0219" target="_blank">@Bee_sama0219</a>）までお問い合わせください。</p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p class="footer-name">波音びぃ</p>
+  <p class="footer-en">NAMINE BEE</p>
+  <div class="footer-links">
+    <a href="https://youtube.com/@dakunesu0219?si=wiV-UgmcBE7-t-16" target="_blank">▶ YouTube</a>
+    <a href="https://x.com/Bee_sama0219" target="_blank">▶ X (Twitter)</a>
+    <a href="https://whowatch.tv/profile/w:Bee_sama0219" target="_blank">▶ ふわっち</a>
+  </div>
+  <p class="footer-copy">© 2025 波音びぃ (Namine Bee). All Rights Reserved.</p>
+</footer>
+
+<script>
+  // ===== FADE IN =====
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // ===== COUNTDOWN (days only) =====
+  const DEBUT = new Date('2026-07-20T00:00:00+09:00');
+  function updateCountdown() {
+    const diff = DEBUT - new Date();
+    const days = diff > 0 ? Math.ceil(diff / 86400000) : 0;
+    document.getElementById('cd-days').textContent = days;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // ===== CHEER COUNTER (shared via window.storage) =====
+  const CHEER_KEY = 'cheer-count';
+  const MESSAGES = [
+    'ありがとう！YouTubeもフォローしてくれたら嬉しいな！',
+    'え！嬉しすぎる〜！大好き！'
+  ];
+
+  async function loadCheerCount() {
+    try {
+      const res = await window.storage.get(CHEER_KEY, true);
+      const count = res ? parseInt(res.value) || 0 : 0;
+      document.getElementById('cheer-count').textContent = count.toLocaleString('ja-JP');
+    } catch(e) {
+      document.getElementById('cheer-count').textContent = '0';
+    }
+  }
+
+  async function sendCheer() {
+    const btn = document.getElementById('cheer-btn');
+    btn.disabled = true;
+    try {
+      let current = 0;
+      try {
+        const res = await window.storage.get(CHEER_KEY, true);
+        current = res ? parseInt(res.value) || 0 : 0;
+      } catch(e) {}
+      const next = current + 1;
+      await window.storage.set(CHEER_KEY, String(next), true);
+      document.getElementById('cheer-count').textContent = next.toLocaleString('ja-JP');
+      showBubble(MESSAGES[Math.floor(Math.random() * MESSAGES.length)]);
+    } catch(e) {
+      showBubble(MESSAGES[Math.floor(Math.random() * MESSAGES.length)]);
+    }
+    setTimeout(() => { btn.disabled = false; }, 1500);
+  }
+
+  function showBubble(msg) {
+    const wrap = document.getElementById('cheer-bubble');
+    wrap.innerHTML = '';
+    const b = document.createElement('div');
+    b.className = 'cheer-bubble';
+    b.textContent = msg;
+    wrap.appendChild(b);
+    setTimeout(() => {
+      b.style.transition = 'opacity 0.5s';
+      b.style.opacity = '0';
+      setTimeout(() => wrap.innerHTML = '', 500);
+    }, 3000);
+  }
+
+  loadCheerCount();
+</script>
+</body>
+</html>
